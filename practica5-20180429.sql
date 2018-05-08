@@ -26,11 +26,11 @@ DROP TABLE IF EXISTS `equipos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `equipos` (
-  `ID` int(5) NOT NULL,
-  `IP` varchar(50) DEFAULT NULL,
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(50) DEFAULT NULL,
   `Nombre` varchar(70) DEFAULT NULL,
   `Latencia` float DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,10 +51,10 @@ DROP TABLE IF EXISTS `horacentral`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `horacentral` (
-  `ID` int(5) NOT NULL,
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `hUTC` varchar(20) DEFAULT NULL,
   `hLocal` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -75,17 +75,17 @@ DROP TABLE IF EXISTS `horaequipos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `horaequipos` (
-  `ID` int(5) NOT NULL,
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `IDhUTC` int(5) DEFAULT NULL,
   `IDEquipo` int(5) DEFAULT NULL,
   `hEquipo` varchar(20) DEFAULT NULL,
   `aEquipo` varchar(20) DEFAULT NULL,
   `ralentizar` float DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`id`),
   KEY `HEquiEqui` (`IDEquipo`),
   KEY `HEquiCen` (`IDhUTC`),
-  CONSTRAINT `HEquiCen` FOREIGN KEY (`IDhUTC`) REFERENCES `horacentral` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `HEquiEqui` FOREIGN KEY (`IDEquipo`) REFERENCES `equipos` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `HEquiCen` FOREIGN KEY (`IDhUTC`) REFERENCES `horacentral` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `HEquiEqui` FOREIGN KEY (`IDEquipo`) REFERENCES `equipos` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

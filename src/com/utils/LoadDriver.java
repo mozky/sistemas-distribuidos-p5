@@ -1,4 +1,4 @@
-package com;
+package com.utils;
 
 public class LoadDriver {
     public static void load() {

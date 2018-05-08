@@ -1,65 +1,65 @@
-package com;
+package com.utils;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
+import java.sql.*;
 
 public class DBConnector {
-    private Connection connect = null;
-    private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
+    public Connection conn = null;
+    public Statement stmt = null;
+    public PreparedStatement preparedStmt = null;
+    public ResultSet resultSet = null;
 
     public DBConnector() {
         LoadDriver.load();
     }
 
+    public void openDBConnection() {
+        try {
+             conn = DriverManager.getConnection("jdbc:mysql://localhost/distribuidos?"
+                    + "user=root&password=&serverTimezone=UTC&useSSL=false");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void readDataBase() throws Exception {
         try {
             // Setup the connection with the DB
-            connect = DriverManager
+            conn = DriverManager
                     .getConnection("jdbc:mysql://localhost/distribuidos?"
                             + "user=root&password=&serverTimezone=UTC&useSSL=false");
 
             // Statements allow to issue SQL queries to the database
-            statement = connect.createStatement();
+            stmt = conn.createStatement();
             // Result set get the result of the SQL query
-            resultSet = statement
+            resultSet = stmt
                     .executeQuery("select * from distribuidos.equipos");
             writeResultSet(resultSet);
 
 /*            // PreparedStatements can use variables and are more efficient
-            preparedStatement = connect
+            preparedStmt = conn
                     .prepareStatement("insert into  test.comments values (default, ?, ?, ?, ? , ?, ?)");
             // "myuser, webpage, datum, summary, COMMENTS from test.comments");
             // Parameters start with 1
-            preparedStatement.setString(1, "Test");
-            preparedStatement.setString(2, "TestEmail");
-            preparedStatement.setString(3, "TestWebpage");
-            preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
-            preparedStatement.setString(5, "TestSummary");
-            preparedStatement.setString(6, "TestComment");
-            preparedStatement.executeUpdate();
+            preparedStmt.setString(1, "Test");
+            preparedStmt.setString(2, "TestEmail");
+            preparedStmt.setString(3, "TestWebpage");
+            preparedStmt.setDate(4, new java.sql.Date(2009, 12, 11));
+            preparedStmt.setString(5, "TestSummary");
+            preparedStmt.setString(6, "TestComment");
+            preparedStmt.executeUpdate();
 
-            preparedStatement = connect
+            preparedStmt = conn
                     .prepareStatement("SELECT myuser, webpage, datum, summary, COMMENTS from test.comments");
-            resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStmt.executeQuery();
             writeResultSet(resultSet);
 
             // Remove again the insert comment
-            preparedStatement = connect
+            preparedStmt = conn
                     .prepareStatement("delete from test.comments where myuser= ? ; ");
-            preparedStatement.setString(1, "Test");
-            preparedStatement.executeUpdate();
+            preparedStmt.setString(1, "Test");
+            preparedStmt.executeUpdate();
 
-            resultSet = statement
+            resultSet = stmt
                     .executeQuery("select * from test.comments");
             writeMetaData(resultSet);*/
 
@@ -101,22 +101,21 @@ public class DBConnector {
     }
 
     // You need to close the resultSet
-    private void close() {
+    public void close() {
         try {
             if (resultSet != null) {
                 resultSet.close();
             }
 
-            if (statement != null) {
-                statement.close();
+            if (stmt != null) {
+                stmt.close();
             }
 
-            if (connect != null) {
-                connect.close();
+            if (conn != null) {
+                conn.close();
             }
         } catch (Exception e) {
 
         }
     }
-
 }
